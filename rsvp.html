@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP - ExploitX Cybersecurity & Networking Meetup 2026</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="rsvp_style.css">
+</head>
+<body>
+    <header class="rsvp-header">
+        <a href="index.html" class="back-link">← Back to Event</a>
+        <h1 class="rsvp-page-title">RSVP Form</h1>
+        <p class="rsvp-subtitle">Cybersecurity & Networking Meetup 2025</p>
+    </header>
+
+    <main class="rsvp-main">
+        <section class="rsvp-section">
+            <div class="container">
+                <form class="rsvp-form">
+
+                    <div class="form-group">
+                        <label for="fullname">Full Name <span class="required">*</span></label>
+                        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profession">Profession</label>
+                        <select id="profession" name="profession">
+                            <option value="">Select your profession</option>
+                            <option value="student">Student</option>
+                            <option value="working">Working</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="cit-student" name="cit-student">
+                            Are you a CIT student?
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="organization">Organization <span class="required">*</span></label>
+                        <input type="text" id="organization" name="organization" placeholder="Your organization or institution" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210">
+                    </div>
+
+                    <button type="submit" class="submit-button">RSVP NOW</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Contact: <a href="mailto:contact@cybersecmeetup2025.in">exploitx@citchennai.net</a></p>
+        <p>&copy; 2025 ExploitX Meetup. All rights reserved.</p>
+    </footer>
+</body>
+</html>

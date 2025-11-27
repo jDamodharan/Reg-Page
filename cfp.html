@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFP - ExploitX Meetup 2026</title>
+    <link rel="stylesheet" href="rsvp_style.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="rsvp-header">
+    <a href="index.html" class="back-link">← Back to Event</a>
+    <h1 class="rsvp-page-title">Call for Proposals</h1>
+    <p class="rsvp-subtitle">ExploitX Cybersecurity & Networking Meetup 2026</p>
+</header>
+
+<main>
+    <section class="rsvp-section">
+        <div class="container">
+            <form id="cfpForm">
+
+                <h2 class="section-title">Proposal Details</h2>
+
+                <div class="form-group">
+                    <label>Proposal Title *</label>
+                    <input type="text" id="proposal-title" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Proposal Description *</label>
+                    <div id="editor-description" class="quill-editor"></div>
+                    <input type="hidden" id="proposal-description">
+                </div>
+
+                <div class="form-group">
+                    <label>Proposal Takeaways *</label>
+                    <div id="editor-takeaways" class="quill-editor"></div>
+                    <input type="hidden" id="proposal-takeaways">
+                </div>
+
+                <div class="form-group">
+                    <label>Session Type *</label>
+                    <select id="session-type" required>
+                        <option value="">Select session type</option>
+                        <option value="lightning-talk">Lightning Talk</option>
+                        <option value="talk">Full Talk</option>
+                        <option value="workshop">Workshop</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Is this your first talk? *</label>
+                    <select id="first-talk" required>
+                        <option value="">Select</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <h2 class="section-title">Personal Information</h2>
+
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="fullname" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Occupation</label>
+                    <input type="text" id="occupation">
+                </div>
+
+                <div class="form-group">
+                    <label>Organization</label>
+                    <input type="text" id="organization">
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <button type="submit" class="submit-button">Submit Proposal</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>Contact: exploitx@citchennai.net</p>
+    <p>&copy; 2026 ExploitX Meetup</p>
+</footer>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+let EMAIL_CONFIG = null;
+
+// Load keys safely from Vercel serverless function
+fetch("/api/config")
+    .then(res => res.json())
+    .then(c => {
+        EMAIL_CONFIG = c;
+        emailjs.init(c.publicKey);
+        console.log("SAFE EmailJS config loaded");
+    })
+    .catch(err => {
+        console.error("Failed to load config:", err);
+        alert("Server error. Unable to load configuration.");
+    });
+
+// Quill editors
+const quillDescription = new Quill("#editor-description", {
+    theme: "snow",
+    modules: { toolbar: [[{ header: [1, 2, 3, false] }], ["bold", "italic", "underline"], [{ list: "ordered" }, { list: "bullet" }], ["clean"]] }
+});
+
+const quillTakeaways = new Quill("#editor-takeaways", {
+    theme: "snow",
+    modules: { toolbar: [[{ header: [1, 2, 3, false] }], ["bold", "italic", "underline"], [{ list: "ordered" }, { list: "bullet" }], ["clean"]] }
+});
+
+function syncQuill() {
+    document.getElementById("proposal-description").value = quillDescription.root.innerHTML;
+    document.getElementById("proposal-takeaways").value = quillTakeaways.root.innerHTML;
+}
+
+document.getElementById("cfpForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    syncQuill();
+
+    if (!EMAIL_CONFIG) {
+        alert("Configuration not loaded. Try again later.");
+        return;
+    }
+
+    const templateParams = {
+        proposal_title: document.getElementById("proposal-title").value,
+        proposal_description: document.getElementById("proposal-description").value,
+        proposal_takeaways: document.getElementById("proposal-takeaways").value,
+        session_type: document.getElementById("session-type").value,
+        first_talk: document.getElementById("first-talk").value,
+        fullname: document.getElementById("fullname").value,
+        occupation: document.getElementById("occupation").value,
+        organization: document.getElementById("organization").value,
+        email: document.getElementById("email").value
+    };
+
+    // Send to YOU (owner)
+    await emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateOwner, templateParams);
+
+    // Auto reply to user
+    await emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateAutoReply, {
+        email: templateParams.email,
+        fullname: templateParams.fullname
+    });
+
+    alert("Your proposal has been submitted successfully!");
+});
+</script>
+
+</body>
+</html>

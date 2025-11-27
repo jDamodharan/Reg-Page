@@ -1,0 +1,300 @@
+:root {
+    --color-bg: #f9fafb;
+    --color-text: #1f2937;
+    --color-primary: #0b76ff;
+    --color-primary-dark: #0056c7;
+    --color-primary-light: rgba(11, 118, 255, 0.25);
+    --color-bg-card: #ffffff;
+    --color-border: #e5e7eb;
+    --color-border-light: #f3f4f6;
+    --spacing-xs: 6px;
+    --spacing-sm: 10px;
+    --spacing-md: 20px;
+    --spacing-lg: 32px;
+    --spacing-xl: 48px;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --shadow-sm: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    --max-width-narrow: 480px;
+    --font-body: 'Inter', sans-serif;
+}
+
+/* =============================
+   GLOBAL THEME + RESETS
+   ============================= */
+
+   :root {
+    --color-bg: #f9fafb;
+    --color-bg-card: #ffffff;
+    --color-text: #1f2937;
+    --color-text-light: #4b5563;
+
+    --color-primary: #0b76ff;
+    --color-primary-dark: #0056c7;
+    --color-primary-light: rgba(11, 118, 255, 0.25);
+
+    --color-border: #e5e7eb;
+    --color-border-light: #f3f4f6;
+
+    --spacing-xs: 6px;
+    --spacing-sm: 10px;
+    --spacing-md: 20px;
+    --spacing-lg: 32px;
+    --spacing-xl: 48px;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+
+    --shadow-sm: 0px 4px 12px rgba(0, 0, 0, 0.05);
+
+    --max-width: 1280px;
+    --max-width-narrow: 500px;
+
+    --font-body: "Inter", sans-serif;
+
+    --transition: all 0.25s ease;
+}
+
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    padding: var(--spacing-md);
+}
+
+/* Container */
+.container {
+    max-width: var(--max-width-narrow);
+    margin: 0 auto;
+    padding: var(--spacing-md);
+}
+
+/* Header */
+.rsvp-header {
+    text-align: center;
+    padding-bottom: var(--spacing-md);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.rsvp-page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+}
+
+.rsvp-subtitle {
+    color: var(--color-text-light);
+    font-size: 1rem;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+    color: var(--color-text-light);
+    font-size: 0.875rem;
+}
+
+
+/* ============================================
+   RSVP FORM SECTION - Dark Professional Theme
+   ============================================ */
+.rsvp-section {
+    padding: var(--spacing-md) 0;
+    background: var(--color-bg);
+    position: relative;
+    overflow: hidden;
+    color: var(--color-text);
+}
+
+.rsvp-section .container {
+    background: var(--color-bg-card);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.rsvp-section .section-title {
+    color: var(--color-text);
+}
+
+.rsvp-section .form-group label {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.rsvp-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.rsvp-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.rsvp-section .section-title {
+    color: var(--color-text-inverse);
+}
+
+.rsvp-form {
+    max-width: var(--max-width-narrow);
+    margin: 0 auto;
+    background: var(--color-bg-card);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    box-shadow: none;
+    border: 1px solid var(--color-border);
+}
+
+/* Form Group: Container for each form field */
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    letter-spacing: 0.3px;
+}
+
+.required {
+    color: #ef4444;
+}
+
+/* Form Inputs: Text, email, tel inputs with enhanced animations */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select {
+    width: 100%;
+    padding: var(--spacing-sm);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-card);
+    color: var(--color-text);
+    transition: var(--transition);
+    position: relative;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light), 0 4px 12px rgba(11, 118, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="tel"]:hover,
+select:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 2px 8px rgba(11, 118, 255, 0.08);
+}
+
+/* Select dropdown styling */
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230b76ff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-md) center;
+    padding-right: var(--spacing-xl);
+}
+
+/* Checkbox Group: Custom checkbox styling */
+.checkbox-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--color-primary);
+}
+
+/* Submit Button: Form submission button with enhanced animations */
+.submit-button {
+    width: 100%;
+    padding: 16px var(--spacing-xl);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: 0.5px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+    font-family: var(--font-body);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+}
+
+.submit-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.submit-button:hover::before {
+    left: 100%;
+}
+
+.submit-button:hover {
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
+}
+
+.submit-button:active {
+    transform: translateY(-1px);
+}
