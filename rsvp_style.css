@@ -111,6 +111,34 @@ body {
     font-size: 0.875rem;
 }
 
+/*button link style*/
+.hero-buttons {
+    display: flex;
+    gap: 1rem; /* space between buttons */
+}
+
+.cta-button {
+    padding: 0.8rem 1.5rem;
+    background-color: #1a73e8;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #155ab6;
+}
+
+.cfp-button {
+    background-color: #e53935; /* red for CFP */
+}
+
+.cfp-button:hover {
+    background-color: #b71c1c;
+}
+
 
 /* ============================================
    RSVP FORM SECTION - Dark Professional Theme
