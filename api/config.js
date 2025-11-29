@@ -1,4 +1,5 @@
 export default function handler(req, res) {
+  // Return EmailJS configuration from env vars
   res.status(200).json({
     serviceId: process.env.SERVICE_ID,
     templateOwner: process.env.TEMPLATE_OWNER,
