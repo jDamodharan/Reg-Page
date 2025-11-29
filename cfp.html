@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFP - ExploitX Meetup 2026</title>
+    <title>Call for Proposals | ExploitX Meetup 2026</title>
 
-    <!-- Quill Editor -->
+    <!-- External CSS -->
+    <link rel="stylesheet" href="cfp_style.css">
+
+    <!-- Quill Styles -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 </head>
 
 <body>
@@ -19,152 +21,151 @@
 </header>
 
 <main>
-    <form id="cfpForm">
+    <section class="rsvp-section">
+        <div class="container">
 
-        <h2>Proposal Details</h2>
+            <h1 class="title">Submit Your Proposal</h1>
 
-        <label>Proposal Title *</label>
-        <input type="text" id="proposal-title" required>
+            <form id="cfpForm">
 
-        <label>Proposal Description *</label>
-        <div id="editor-description"></div>
-        <input type="hidden" id="proposal-description">
+                <h2 class="section-title">Proposal Details</h2>
 
-        <label>Proposal Takeaways *</label>
-        <div id="editor-takeaways"></div>
-        <input type="hidden" id="proposal-takeaways">
+                <div class="form-group">
+                    <label>Proposal Title <span>*</span></label>
+                    <input type="text" class="proposal-title" required>
+                </div>
 
-        <label>Session Type *</label>
-        <select id="session-type" required>
-            <option value="">Select session type</option>
-            <option value="lightning-talk">Lightning Talk</option>
-            <option value="talk">Full Talk</option>
-            <option value="workshop">Workshop</option>
-        </select>
+                <div class="form-group">
+                    <label>Proposal Description <span>*</span></label>
+                    <div class="quill-editor" id="editor-description"></div>
+                    <input type="hidden" class="proposal-description">
+                </div>
 
-        <label>Is this your first talk? *</label>
-        <select id="first-talk" required>
-            <option value="">Select</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
+                <div class="form-group">
+                    <label>Proposal Takeaways <span>*</span></label>
+                    <div class="quill-editor" id="editor-takeaways"></div>
+                    <input type="hidden" class="proposal-takeaways">
+                </div>
 
-        <h2>Personal Information</h2>
+                <div class="form-group">
+                    <label>Session Type <span>*</span></label>
+                    <select class="session-type" required>
+                        <option value="talk">Full Talk</option>
+                        <option value="lightning-talk">Lightning Talk</option>
+                    </select>
+                </div>
 
-        <label>Full Name *</label>
-        <input type="text" id="fullname" required>
+                <div class="form-group">
+                    <label>Is this your first talk? <span>*</span></label>
+                    <select class="first-talk" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
 
-        <label>Occupation</label>
-        <input type="text" id="occupation">
+                <h2 class="section-title">Personal Information</h2>
 
-        <label>Organization</label>
-        <input type="text" id="organization">
+                <div class="form-group">
+                    <label>Full Name <span>*</span></label>
+                    <input type="text" class="fullname" required>
+                </div>
 
-        <label>Email *</label>
-        <input type="email" id="email" required>
+                <div class="form-group">
+                    <label>Occupation<span>*</span></label>
+                    <input type="text" class="occupation">
+                </div>
 
-        <button type="submit">Submit Proposal</button>
-    </form>
+                <div class="form-group">
+                    <label>Organization<span>*</span></label>
+                    <input type="text" class="organization">
+                </div>
+
+                <div class="form-group">
+                    <label>Email <span>*</span></label>
+                    <input type="email" class="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone <span>*</span></label>
+                    <input type="tel" class="email" required>
+                </div>
+
+                <button type="submit" class="btn-primary">Submit Proposal</button>
+
+            </form>
+
+        </div>
+    </section>
 </main>
 
-<footer>
-    <p>Contact: exploitx@citchennai.net</p>
-    <p>&copy; 2026 ExploitX Meetup</p>
+<footer class="footer">
+    <p id="copyrightText"></p>
 </footer>
 
+
+
+<!-- Quill JS -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
 <!-- EmailJS -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script>
-/* ---------- QUILL TOOLBAR ---------- */
-const fullToolbar = [
-    [{ 'header': [1, 2, 3, false] }],
-    ['bold', 'italic', 'underline', 'strike'],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    ['blockquote', 'code-block'],
-    ['link'],
-    [{ 'align': [] }],
-    ['clean']
-];
+/* ---------- INITIALIZE EMAILJS ---------- */
+emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
 
-/* ---------- INIT QUILL ---------- */
-let quillDescription, quillTakeaways;
-
-window.addEventListener("DOMContentLoaded", () => {
-    quillDescription = new Quill('#editor-description', {
-        theme: 'snow',
-        modules: { toolbar: fullToolbar }
-    });
-
-    quillTakeaways = new Quill('#editor-takeaways', {
-        theme: 'snow',
-        modules: { toolbar: fullToolbar }
-    });
+/* ---------- QUILL EDITORS ---------- */
+const quillDescription = new Quill("#editor-description", {
+    theme: "snow",
+    placeholder: "Write your proposal description here...",
 });
 
-/* ---------- SYNC QUILL TO HIDDEN INPUT ---------- */
-function syncQuill() {
-    document.getElementById("proposal-description").value =
-        quillDescription.root.innerHTML;
+const quillTakeaways = new Quill("#editor-takeaways", {
+    theme: "snow",
+    placeholder: "List the takeaways...",
+});
 
-    document.getElementById("proposal-takeaways").value =
-        quillTakeaways.root.innerHTML;
-}
-
-/* ---------- LOAD EMAILJS CONFIG ---------- */
-let config = null;
-
-fetch("/api/config")
-    .then(res => res.json())
-    .then(data => {
-        config = data;
-        emailjs.init(config.publicKey);
-        console.log("EmailJS Config Loaded");
-    })
-    .catch(err => console.error("Failed to load config:", err));
-
-/* ---------- FORM SUBMIT ---------- */
+/* ---------- FORM SUBMISSION ---------- */
 document.getElementById("cfpForm").addEventListener("submit", async (event) => {
     event.preventDefault();
-    syncQuill();
 
-    if (!config) {
-        alert("Configuration not loaded.");
-        return;
-    }
+    document.querySelector(".proposal-description").value = quillDescription.root.innerHTML;
+    document.querySelector(".proposal-takeaways").value = quillTakeaways.root.innerHTML;
 
     const formData = {
-        proposal_title: document.getElementById("proposal-title").value,
-        proposal_description: document.getElementById("proposal-description").value,
-        proposal_takeaways: document.getElementById("proposal-takeaways").value,
-        session_type: document.getElementById("session-type").value,
-        first_talk: document.getElementById("first-talk").value,
-        fullname: document.getElementById("fullname").value,
-        occupation: document.getElementById("occupation").value,
-        organization: document.getElementById("organization").value,
-        email: document.getElementById("email").value
+        proposal_title: document.querySelector(".proposal-title").value,
+        proposal_description: document.querySelector(".proposal-description").value,
+        proposal_takeaways: document.querySelector(".proposal-takeaways").value,
+        session_type: document.querySelector(".session-type").value,
+        first_talk: document.querySelector(".first-talk").value,
+        fullname: document.querySelector(".fullname").value,
+        occupation: document.querySelector(".occupation").value,
+        organization: document.querySelector(".organization").value,
+        email: document.querySelector(".email").value
     };
 
     try {
-        // Send owner mail (once)
-        await emailjs.send(config.serviceId, config.templateOwner, formData);
+        // send email to owner
+        await emailjs.send("YOUR_SERVICE_ID", "OWNER_TEMPLATE_ID", formData);
 
-        // Send auto reply (once)
-        await emailjs.send(config.serviceId, config.templateAutoReply, formData);
+        // auto reply
+        await emailjs.send("YOUR_SERVICE_ID", "AUTO_REPLY_TEMPLATE_ID", formData);
 
-        // Success popup
         alert("Your proposal has been submitted successfully!");
 
-        // Wait 2 seconds then go home
         setTimeout(() => {
             window.location.href = "index.html";
         }, 2000);
 
-    } catch (err) {
-        console.error("EmailJS Error:", err);
+    } catch (error) {
         alert("Submission failed. Try again.");
+        console.error(error);
     }
 });
+
+const year = new Date().getFullYear();
+document.getElementById("copyrightText").innerHTML =`© ${year} ExploitX Meetup. All rights reserved.`;
+
 </script>
 
 </body>
