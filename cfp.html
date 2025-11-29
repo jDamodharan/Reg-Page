@@ -141,15 +141,15 @@ document.getElementById("cfpForm").addEventListener("submit", async (event) => {
         fullname: document.querySelector(".fullname").value,
         occupation: document.querySelector(".occupation").value,
         organization: document.querySelector(".organization").value,
-        email: document.querySelector(".email").value
+        email: document.querySelector(".email").values
     };
 
     try {
         // send email to owner
-        await emailjs.send("YOUR_SERVICE_ID", "OWNER_TEMPLATE_ID", formData);
+        await emailjs.send("SERVICE_ID", "TEMPLATE_OWNER", formData);
 
         // auto reply
-        await emailjs.send("YOUR_SERVICE_ID", "AUTO_REPLY_TEMPLATE_ID", formData);
+        await emailjs.send("SERVICE_ID", "TEMPLATE_AUTOREPLY", formData);
 
         alert("Your proposal has been submitted successfully!");
 
