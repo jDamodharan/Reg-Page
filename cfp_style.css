@@ -5,6 +5,20 @@ body {
     margin: 0;
 }
 
+.quill-editor {
+        background: #fff;
+        min-height: 180px;
+        border-radius: 8px;
+        padding: 0;
+        margin-bottom: 15px;
+    }
+    .ql-container {
+        border-radius: 0 0 8px 8px;
+    }
+    .ql-toolbar {
+        border-radius: 8px 8px 0 0;
+    }
+
 .container {
     max-width: 700px;
     background: white;
