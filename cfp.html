@@ -73,6 +73,11 @@
                 <label>Phone *</label>
                 <input type="tel" class="phone" required>
             </div>
+            <div class="form-group">
+                <label>Photo</label>
+                <input type="file" class="photo" accept="image/*">
+            </div>
+
 
             <button type="submit">Submit Proposal</button>
         </form>
@@ -110,44 +115,65 @@ async function loadEmailConfig() {
 }
 loadEmailConfig();
 
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file); // convert to Base64
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
+
 // -------------- Form Submit --------------
 document.getElementById("cfpForm").addEventListener("submit", async (e) => {
     e.preventDefault();
-    if(!emailConfig) { alert("EmailJS config not loaded."); return; }
-
-    // Sync Quill
+    
+    // Sync Quill editors
     document.querySelector(".proposal-description").value = quillDescription.root.innerHTML;
     document.querySelector(".proposal-takeaways").value = quillTakeaways.root.innerHTML;
 
+    // Get uploaded photo
+    const photoInput = document.querySelector(".photo");
+    let photoBase64 = "";
+    if(photoInput.files.length > 0){
+        try{
+            photoBase64 = await getBase64(photoInput.files[0]);
+        } catch(err){
+            console.error("Failed to convert image:", err);
+        }
+    }
+    
+    // formData with attachment
     const formData = {
+        fullname: document.querySelector(".fullname").value,
+        email: document.querySelector(".email").value,
+        phone: document.querySelector(".phone").value,
+        occupation: document.querySelector(".occupation").value,
+        organization: document.querySelector(".organization").value,
         proposal_title: document.querySelector(".proposal-title").value,
         proposal_description: document.querySelector(".proposal-description").value,
         proposal_takeaways: document.querySelector(".proposal-takeaways").value,
         session_type: document.querySelector(".session-type").value,
         first_talk: document.querySelector(".first-talk").value,
-        fullname: document.querySelector(".fullname").value,
-        occupation: document.querySelector(".occupation").value,
-        organization: document.querySelector(".organization").value,
-        email: document.querySelector(".email").value,
-        phone: document.querySelector(".phone").value
+        attachment: photoBase64  // <-- EmailJS attachment
     };
 
     try {
-        console.log("Sending owner email...");
+        // Send owner email
         await emailjs.send(emailConfig.serviceId, emailConfig.templateOwner, formData);
 
-        console.log("Sending auto-reply...");
+        // Send auto-reply
         await emailjs.send(emailConfig.serviceId, emailConfig.templateAutoReply, formData);
 
         alert("Proposal submitted successfully!");
         document.getElementById("cfpForm").reset();
-        setTimeout(() => window.location.href="index.html", 2000);
-
-    } catch(err) {
+    } catch(err){
         console.error("EmailJS send failed:", err);
         alert("Submission failed. Try again.");
     }
 });
+
 
 // -------------- Footer Year --------------
 document.getElementById("footerYear").textContent = `© ${new Date().getFullYear()} ExploitX Meetup`;
