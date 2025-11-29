@@ -96,47 +96,31 @@
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
-let EMAIL_CONFIG = null;
+let config = null;
 
-// Load keys safely from Vercel serverless function
+/* Load EmailJS env values from Vercel backend */
 fetch("/api/config")
     .then(res => res.json())
-    .then(c => {
-        EMAIL_CONFIG = c;
-        emailjs.init(c.publicKey);
-        console.log("SAFE EmailJS config loaded");
+    .then(data => {
+        config = data;
+        emailjs.init(config.publicKey);
+        console.log("EmailJS Config Loaded");
     })
-    .catch(err => {
-        console.error("Failed to load config:", err);
-        alert("Server error. Unable to load configuration.");
-    });
+    .catch(err => console.error("Failed to load config:", err));
 
-// Quill editors
-const quillDescription = new Quill("#editor-description", {
-    theme: "snow",
-    modules: { toolbar: [[{ header: [1, 2, 3, false] }], ["bold", "italic", "underline"], [{ list: "ordered" }, { list: "bullet" }], ["clean"]] }
-});
 
-const quillTakeaways = new Quill("#editor-takeaways", {
-    theme: "snow",
-    modules: { toolbar: [[{ header: [1, 2, 3, false] }], ["bold", "italic", "underline"], [{ list: "ordered" }, { list: "bullet" }], ["clean"]] }
-});
 
-function syncQuill() {
-    document.getElementById("proposal-description").value = quillDescription.root.innerHTML;
-    document.getElementById("proposal-takeaways").value = quillTakeaways.root.innerHTML;
-}
-
-document.getElementById("cfpForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+/* FORM SUBMISSION */
+document.getElementById("cfpForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
     syncQuill();
 
-    if (!EMAIL_CONFIG) {
-        alert("Configuration not loaded. Try again later.");
+    if (!config) {
+        alert("Configuration not loaded.");
         return;
     }
 
-    const templateParams = {
+    const formData = {
         proposal_title: document.getElementById("proposal-title").value,
         proposal_description: document.getElementById("proposal-description").value,
         proposal_takeaways: document.getElementById("proposal-takeaways").value,
@@ -145,21 +129,35 @@ document.getElementById("cfpForm").addEventListener("submit", async function(e) 
         fullname: document.getElementById("fullname").value,
         occupation: document.getElementById("occupation").value,
         organization: document.getElementById("organization").value,
-        email: document.getElementById("email").value
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value
     };
 
-    // Send to YOU (owner)
-    await emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateOwner, templateParams);
+    try {
+        // =========== SEND OWNER MAIL (ONE TIME) ===========
+        await emailjs.send(
+            config.serviceId,
+            config.templateOwner,
+            formData
+        );
 
-    // Auto reply to user
-    await emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateAutoReply, {
-        email: templateParams.email,
-        fullname: templateParams.fullname
-    });
+        // =========== SEND AUTO REPLY TO USER (ONE TIME) ===========
+        await emailjs.send(
+            config.serviceId,
+            config.templateAutoReply,
+            formData
+        );
 
-    alert("Your proposal has been submitted successfully!");
+        alert("Your proposal has been submitted successfully!");
+        document.getElementById("cfpForm").reset();
+
+    } catch (error) {
+        console.error("EmailJS Error:", error);
+        alert("Submission failed. Try again.");
+    }
 });
 </script>
+
 
 </body>
 </html>
